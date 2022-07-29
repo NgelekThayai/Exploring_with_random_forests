@@ -48,9 +48,10 @@ class PandasTransformer:
         coltypes = []
         colnames = []
         colimputes = []
+        columns = []
         ii = 0
         for i in range(ncols):
-            colname = df.columns[i]
+            colname = df.columns[i]#error is here, tried making a columns[] but that didnt help.
             coldtype = df[colname].dtype
             tcoltype = None
             shall_ignore = False
@@ -111,6 +112,7 @@ class PandasTransformer:
         self._levels = levels
         self._target = target
         self._target_levels = target_levels
+        
         return tdata, AtoB, BtoA, coltypes, colnames, target, target_levels, levels
 
     def transform(self, df, ignore_target=False):

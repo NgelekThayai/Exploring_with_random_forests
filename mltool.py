@@ -2,6 +2,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import train_test_split
 from sklearn.inspection import permutation_importance
+import etl
 import pandas as pd
 import numpy as np
 
@@ -44,13 +45,12 @@ class Model:
             model = RandomForestClassifier(*args, **kwargs)
         elif kind == "Linear":
             raise ValueError("The target should be RF, for now")
-
-        #ETL
-      #  X = df.drop(target, axis = 1)
-      #  y = df.iloc[:,target]
-   
-       
-        X_train, X_test, y_train, y_test = train_test_split(df.drop(target), target, **kwargs)
+        transformer = etl.PandasTransformer()
+        transformer.fit(df)
+        X,y = transformer.transform(df)
+      
+      
+        X_train, X_test, y_train, y_test = train_test_split(X,y, **kwargs)
         
 
         # now fit the model
@@ -68,6 +68,7 @@ class Model:
         """
         first we check if there is a trained model
         if there is a trained model I return a a prediction using the self._model.predict.
+        need to figure out a way to transform my numpy back to pandas
         i make it a pandas dataframe and make the column the name of the target
         """
         
