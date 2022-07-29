@@ -1,10 +1,107 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import train_test_split
-from sklearn.inspection import permutation_importance
 import pandas as pd
 import numpy as np
 
+def etl(df, ignore = [], target = None):
+    
+    #one hot encoding from the index to the transform and transform bac to original
+class Transformer:
+    
+    def __init__(self):
+        self._AtoB = None
+        self._BtoA = None
+        self._coltypes = None
+        self._colnames = None
+        self._target = None
+        self._ levels = None
+        self._target_levels = []
+
+    def fit(self, df, ignore = [], target = None):
+        ncols = df.shape[1]
+        nrows = df.shape[0]
+        colnames = df.columns
+        tcols = []
+        BtoA = {}
+        AtoB = {}
+        levels = {}
+        target_levels = {}
+        tcoltypes = []
+        #go through all the columns and check if they numeric or categorical
+        #if it is a numeric type then convert the value to a float
+        #if it is something besides a numeric type
+        #if it is categorical
+    for i in range(ncols):
+        colname = df.columns[i]
+        coldtype = df[colname].dtype
+        tcoltype = None
+        if colname == target:
+            col = df.columns[i]
+           for j in range(len(uvals)):
+               target_levels[uvals[i]] = j
+               
+        elif colname in ignore:
+            
+        if np.issubdtype(coldtype, np.integer) or np.issubdtype(coldtype, np.floating) or np.issubdtype(coldtype, np.bool_):
+            tcoltype = "numeric"
+            cols =[np.asarray(df[col], np.float64)]
+            
+            BtoA[len(tcols)] = i
+            AtoB[i] =[len(tcols)]
+        elif np.issubdtype(coldtype, np.object_):
+            uvals = df[colname].unique()
+            if isinstance    uvals[0], (np.bool_, bool)):
+                tcoltype = "numeric"
+                AtoB[i] =[len(tcols)]
+                BtoA[len(tcols)] = i
+                col = [np.asarray(df[colname].values, np.float64)]
+            elif  (vals[0].dtype, np.str_):
+                coltype = "categorical"
+                vals =  df[colname].values
+                cols = []
+                ilist = []
+               for j in range (uvals):
+                   k = len(tcols) + j
+                   ilist.append(len(tcols)+j)
+                   level = uvals[j]
+                   col = np.asarray(vals == level, dtype = np.float64)
+                   cols.append(col)
+                   BtoA[k] = i          
+                   AtoB[i] = ilist
+                   levels[i] = uvals
+               else:
+                   raise TypeError("cannot handle object type: %s" % (str(uvals[0].dtype), colname))
+            else:
+                raise TypeError("cannot handle column dtype: %s for column %s" %(coldtype, colname))
+                  es.append(coltype )
+            tcols = tcols + cols
+            tdata = np.vstack(uu).T.copy()
+        self._AtoB = AtoB
+        self._BtoA = BtoA
+        self.coltypes = coltypes
+        self._target = target
+        self._target_levels = target_levels
+        return tdata, AtoB, BtoA, coltypes, levels, target, target_levels
+
+    def transform(df):
+        nrows, ncols = df.shape
+        for colname in self._colnames:
+            if colname not in df.columns:
+                raise ValueError("missing column %s not in data frame" % colname)
+            col  = df[colname]
+            if self._coltypes == "numeric":
+                tcol = np.asarray(col, dtype = np.float64)
+            elif self._coltypes == "categorical":
+                levels = self._levels[i]
+                
+                
+        return X,y
+
+        
+
+
+        
 class Model:
     
     def _init_(self):
@@ -94,17 +191,16 @@ class Model:
         """
         return roc_auc_score(self._ytest, RFC.predict_proba(self.Xtest)[:,1])
 
-    def crossValidate(self,df,splits):
+    def crossValidate(splits):
         """
         first import libraries 
         define my X and Y
         Then I 
         """
         
-        transformer = PandasTransformer()
-        transformer.fit(df)
-        X,y = transformer.transform(df)
-       
+        
+        X = df.drop(self._target, axis = 1)
+        y = df.iloc[:,self._target]
 
        #folds = StratifiedKFold(n_splits = splits)
 
@@ -124,6 +220,8 @@ class Model:
     def feature_importances(self,df, num_trials):
         X = df.drop(self._target, axis = 1)
         y = df.iloc[:,self._target]
+        import pandas as pd
+        from sklearn.inspection import permutation_importance
         r_multi = permutation_importance(self._model, X, y,
                                          n_repeats = num_trials,
                                          random_state = 0)
