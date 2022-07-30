@@ -13,14 +13,7 @@ class Model:
        # italizes a blank model
         
         #Let's store some placeholder meta-data that we will change in our fit.
-        """
-        I created these 4 new self variables which allow me to use the train and test x and y's through          out the class. 
-        I don't think I need other variable and maybe the 4 new variable i added are redundent but it was the only way i think I could make this code work.
-        """
-        self._Xtrain = None
-        self._Xtest = None
-        self._ytrain = None
-        self._ytest = None
+    
         self._target = None
         self._model = None
         self._shape = None
@@ -28,7 +21,7 @@ class Model:
 
 
 
-    def learn(self, df, target = None, kind = 'RF', *args, **kwargs):
+    def learn(self,XTest, yTest, target = None, kind = 'RF', *args, **kwargs):
         """
         1.Make sure there is a value for target, if there isnt then throw an error 
         2. Then check if the classifier is a Random Forest and if it isnt then check if the 
@@ -36,33 +29,26 @@ class Model:
         3.Split the data in to training and testing(i saw the key-word args in the parameters of the funcation so maybe i could apply them to both the RandomForestClassifier and train_test_split
         4.fit the model
         """
-       
-        
         if target is None:
             raise ValueError("The target cannot be None.")
-            ...
+        ...
         if kind == "RF":
             model = RandomForestClassifier(*args, **kwargs)
         elif kind == "Linear":
             raise ValueError("The target should be RF, for now")
-        transformer = etl.PandasTransformer()
-        transformer.fit(df)
-        X,y = transformer.transform(df)
-      
-      
-        X_train, X_test, y_train, y_test = train_test_split(X,y, **kwargs)
+        
+     
         
 
         # now fit the model
-        model.fit(X,y)
-        self._Xtrain = X_train
-        self._Xtest = X_test
-        self._ytrain = y_train
-        self._ytest = y_train
+        model.fit(XTest,yTest)
+     
         self._model = model
         self._target = target
         self._shape = X.shape
         self._columns = df.columns
+
+
 
     def predict(self, df):
         """
