@@ -21,7 +21,7 @@ class Model:
 
 
 
-    def learn(self,XTest, yTest, target = None, kind = 'RF', *args, **kwargs):
+    def learn(self,df,target = None, kind = 'RF', *args, **kwargs):
         """
         1.Make sure there is a value for target, if there isnt then throw an error 
         2. Then check if the classifier is a Random Forest and if it isnt then check if the 
@@ -37,49 +37,50 @@ class Model:
         elif kind == "Linear":
             raise ValueError("The target should be RF, for now")
         
-     
         
-
         # now fit the model
-        model.fit(XTest,yTest)
+        transformer = etl.PandasTransformer()
+        transformer.fit(df, target = target)
+        X,y = transformer.transform(df)
+        
+        model.fit(X,y)
      
         self._model = model
         self._target = target
         self._shape = X.shape
         self._columns = df.columns
+        return X, y
 
 
-
+    
     def predict(self, df):
         """
         first we check if there is a trained model
         if there is a trained model I return a a prediction using the self._model.predict.
         need to figure out a way to transform my numpy back to pandas
         i make it a pandas dataframe and make the column the name of the target
-        """
-        
-        
+        """ 
         if self._model is None:
-            raise ValueError("You must train a model first with None first.")
+            raise ValueError("You must train a model first with learn first.")
         else:
            p_value =pd.DataFrame({self._target:self._model.predict(df.drop(self._target,axis = 1))})
 
         return p_value
 
-    def accuracy(self, df):
+    def accuracy(self,train_X, train_y, test_X, test_y):
         """
         so I score both the training and testing sets of data and then print out what the values would be
         """
-        train_score = self._model.score(self._Xtrain,self._ytrain)
-        test_score = self._model.score(self._Xtest,self._ytest)
-        return "Train Score: ", train_score, "\nTest Score: ", test_score
+        train_score = self._model.score(train_X,train_y)
+        test_score = self._model.score(test_X,test_y)
+        return "Train Score: ", train_score, "Test Score: ", test_score
     
-    def auc(self,df):
+    def auc(self,test_X,test_y):
         """
         using the sci kit learn shown below i found the roc_auc_score
         https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html
         """
-        return roc_auc_score(self._ytest, RFC.predict_proba(self.Xtest)[:,1])
+        return roc_auc_score(test_y, RFC.predict_proba(test_X)[:,1])
 
     def crossValidate(self,df,splits):
         """
@@ -88,7 +89,7 @@ class Model:
         Then I 
         """
         
-        transformer = PandasTransformer()
+        transformer =etl.PandasTransformer()
         transformer.fit(df)
         X,y = transformer.transform(df)
        
@@ -97,7 +98,7 @@ class Model:
 
         scores = []
 
-        for train_index, test_index in kf.split(X,y):
+        for train_index, test_index in transformer.make_train_test_split(df):
             X_train, X_test, y_train, y_test = X.iloc[train_index],X.iloc[test_index], y.iloc[train_index], y.iloc[test_index]
             self._model.fit(X_train,y_train)
             scores.append(get_scores(self._model, X_train, X_test, y_train, y_test))
@@ -108,16 +109,25 @@ class Model:
             
         
 
-    def feature_importances(self,df, num_trials):
-        X = df.drop(self._target, axis = 1)
-        y = df.iloc[:,self._target]
-        r_multi = permutation_importance(self._model, X, y,
+    def feature_importances(self,df,num_trials,target = None):
+        transformer = etl.PandasTransformer()
+        transformer.fit(df, target = target)
+        train_df, test_df = transformer.make_train_test_split(df)
+        test_X, test_y = transformer.transform(test_df)
+
+        
+        
+        r_multi = permutation_importance(self._model, test_X,test_y,
                                          n_repeats = num_trials,
                                          random_state = 0)
-        importance_score =pd.DataFrame({"Feature Importances":r_multi["importances_mean"]})
-                                      # self._model.feature_names)
-
+        #print(type(r_multi))
+        
+        
+        importance_score= transformer.transform_feature_importances(df,r_multi)
         return importance_score
+       #importance_score =pd.DataFrame({"Feature_Importances":r_multi["importances_mean"]})
+       #self._model.feature_names)
+
         
    # def grid_search(df,target, *args, **kwargs):
             
@@ -147,7 +157,3 @@ def get_score(model, X_train, X_test, y_train, y_test):
     model.fit(X_train, y_train)
     return model.score(X_test, y_test)
 """
-
-    
-    
-    
