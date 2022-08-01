@@ -9,4 +9,3 @@ It also one-hot encodes categorical data and stores labels and features so they 
 mltool.py helps users understand their dataset and validate their data as well.
 mltool.py can compute feature importances and cross validate models.
 
-
