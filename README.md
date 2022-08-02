@@ -63,7 +63,7 @@ import pandas as pandas #make sure to shift+enter after typing to execute each l
 import sklearn  #make sure to shift+enter after typing to execute each line
 ```
 
-#Usage
+## Usage
 ------------
 Import your dataset and read it.
 Then create an object that contains the functions ie:
@@ -72,6 +72,7 @@ transformer=etl.PandasTransformer()
 model = mltool.Model()
 ```
 and then the rest is up to you and what functions you want to execute.
-##Thank You:
+
+## Thank You:
 
 I would like to thank my mentor Mr. Damian Eads for all of his help while I explored machine learning. He taught me so much about machine learning, computing, and life. I am truly indebted to Mr.Eads and am forever greatful for his guidence. I would also like to thank the Institue for Computing in Research for this oppurtunity. 
