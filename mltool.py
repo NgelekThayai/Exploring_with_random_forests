@@ -55,23 +55,23 @@ class Model:
         self._columns = df.columns
 
 
-'''
-    def predict(self, df):
-        """
-        first we check if there is a trained model
-        if there is a trained model I return a a prediction using the self._model.predict.
-        need to figure out a way to transform my numpy back to pandas
-        i make it a pandas dataframe and make the column the name of the target
-        """
-        
-        
-        if self._model is None:
-            raise ValueError("You must train a model first with learn  first.")
-        else:
-           p_value =pd.DataFrame({self._target:self._model.predict(df.drop(self._target,axis = 1))})
 
-        return p_value
-'''
+    # def predict(self, df):
+    #     """
+    #     first we check if there is a trained model
+    #     if there is a trained model I return a a prediction using the self._model.predict.
+    #     need to figure out a way to transform my numpy back to pandas
+    #     i make it a pandas dataframe and make the column the name of the target
+    #     """
+        
+        
+    #     if self._model is None:
+    #         raise ValueError("You must train a model first with learn  first.")
+    #     else:
+    #        p_value =pd.DataFrame({self._target:self._model.predict(df.drop(self._target,axis = 1))})
+
+    #     return p_value
+
 
     def accuracy(self, train_X, train_y, test_X, test_y):
         """
