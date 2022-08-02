@@ -26,8 +26,12 @@ class Model:
         1.Make sure there is a value for target, if there isnt then throw an error 
         2. Then check if the classifier is a Random Forest and if it isnt then check if the 
         classifier is a Linear classifier.
-        3.Split the data in to training and testing(i saw the key-word args in the parameters of the funcation so maybe i could apply them to both the RandomForestClassifier and train_test_split
-        4.fit the model
+        3.Use PandasTransformers from etl.py
+        4. fit the dataframe given and set the target to what the user inputted
+        5. then use transform to get X, y
+        6.fit the X,y using fit from sklearn
+        
+        fit the model
         """
         if target is None:
             raise ValueError("The target cannot be None.")
@@ -79,6 +83,18 @@ class Model:
     
        
     def feature_importances(self,df, num_trials):
+        """
+        First create out transformer from etl.py
+        fit our pandas dataframe and make it a numpy array
+        split the numpy array into training and testing arrays
+        split the test dataframe into a test X and test y
+        
+        using the test X and test y compute feature_importances
+        
+        find our feature importances by calling the transform_feature_importances from etl.py which converts the feature importances from numpy arrays to pandas dataframes and labels each feature importance.
+
+return feature importance
+        """
         transformer = etl.PandasTransformer()
         transformer.fit(df, target = target)
         train_df, test_df = transformer.make_train_test_split(df)
