@@ -38,8 +38,6 @@ class Model:
             raise ValueError("The target should be RF, for now")
         
      
-        
-
         # now fit the model
         transformer = etl.PandasTransformer()
         transformer.fit(df, target = target)
@@ -53,7 +51,7 @@ class Model:
         self._columns = df.columns
 
 
-
+'''
     def predict(self, df):
         """
         first we check if there is a trained model
@@ -69,6 +67,7 @@ class Model:
            p_value =pd.DataFrame({self._target:self._model.predict(df.drop(self._target,axis = 1))})
 
         return p_value
+'''
 
     def accuracy(self, train_X, train_y, test_X, test_y):
         """
@@ -78,33 +77,7 @@ class Model:
         test_score = self._model.score(test_X,test_y)
         return "Train Score: ", train_score, "Test Score: ", test_score
     
-'''
-    def crossValidate(self,df,splits):
-        """
-        first import libraries 
-        define my X and Y
-        Then I 
-        """
-        
-        transformer = PandasTransformer()
-        transformer.fit(df)
-        X,y = transformer.transform(df)
        
-
-       #folds = StratifiedKFold(n_splits = splits)
-
-        scores = []
-
-        for train_index, test_index in kf.split(X,y):
-            X_train, X_test, y_train, y_test = X.iloc[train_index],X.iloc[test_index], y.iloc[train_index], y.iloc[test_index]
-            self._model.fit(X_train,y_train)
-            scores.append(get_scores(self._model, X_train, X_test, y_train, y_test))
-
-        cv_scores = pd.DataFrame({"Cross-Validation Scores":scores_rf})
-
-        return cv_scores
-'''       
-
     def feature_importances(self,df, num_trials):
         transformer = etl.PandasTransformer()
         transformer.fit(df, target = target)
