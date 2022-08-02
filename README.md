@@ -25,9 +25,11 @@ Conda will then ask if you want to proceed, type y.
 
 Once in your environment install the program dependencies:
 ```bash 
-$ conda install pandas 
-$ conda install numpy
-$ conda install scikit-learn
+conda install pandas 
+conda install numpy
+conda install seaborn
+conda install matplotlib
+conda install scikit-learn
 ```
 
 if you want too see all the packages installed in the active conda environment type:
@@ -56,10 +58,12 @@ Now in your Jupyter Notebook file import mltool.py and etl.py and the program de
 ```bash
 #make sure you are in the directory you cloned earlier using 
 cd ProjectName
-import mltool #make sure to shift+enter after typing to execute each line
-import etl.py #make sure to shift+enter after typing to execute each line
-import numpy as numpy #make sure to shift+enter after typing to execute each line
-import pandas as pandas #make sure to shift+enter after typing to execute each line
+import mltool #make sure to shift + enter after typing to execute each line
+import etl.py #make sure to shift + enter after typing to execute each line
+import numpy as py #make sure to shift + enter after typing to execute each line
+import pandas as pd #make sure to shift + enter after typing to execute each line
+import matplotlib.pyplot as plt #make sure to shift + enter after typing to execute each line
+import seaborn as sb # make sure to shift + enter after typing to execute each line
 import sklearn  #make sure to shift+enter after typing to execute each line
 ```
 
@@ -73,6 +77,4 @@ model = mltool.Model()
 ```
 and then the rest is up to you and what functions you want to execute.
 
-## Thank You
 
-I would like to thank my mentor Mr. Damian Eads for all of his help while I explored machine learning. He taught me so much about machine learning, computing, and life. I am truly indebted to Mr.Eads and am forever greatful for his guidence. I would also like to thank the Institue for Computing in Research for this oppurtunity. 

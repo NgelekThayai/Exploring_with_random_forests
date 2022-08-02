@@ -2,6 +2,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import train_test_split
 from sklearn.inspection import permutation_importance
+import matplotlib.pyplot as plt
+import seaborn as sb
 import etl
 import pandas as pd
 import numpy as np
@@ -70,10 +72,10 @@ class Model:
     #     else:
     #        p_value =pd.DataFrame({self._target:self._model.predict(df.drop(self._target,axis = 1))})
 
-    #     return p_value
+    #     return p_def
 
 
-    def accuracy(self, train_X, train_y, test_X, test_y):
+    value accuracy(self, train_X, train_y, test_X, test_y):
         """
         so I score both the training and testing sets of data and then print out what the values would be
         """
@@ -109,6 +111,17 @@ return feature importance
         importance_score= transformer.transform_feature_importances(df,r_multi)
         return importance_score
 
+def confusion_matrix(test_X, test_y):
     
     
-    
+    y_pred = self._predict(test_X)
+    cm = confusion_matrix(test_y, y_pred)
+
+    cm_df = pd.DataFrame(cm)
+
+    plt.figure(figsize=(5,4))
+    sb.heatmap(cm_df, annot=True)
+    plt.title('Confusion Matrix')
+    plt.ylabel('Actal Values')
+    plt.xlabel('Predicted Values')
+    plt.show()
