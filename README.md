@@ -1,6 +1,6 @@
-# RandomForestFunctions
+# Exploring_With_Random_Forests
 
-RandomForestFunctions is a way to functionalize the process of the random forest classifier and explore datasets quickly and effectively. 
+Exploring_With_Random_Forests is a way to functionalize the process of the random forest classifier and explore datasets quickly and effectively. 
 
 ## Installation:
 ------------
@@ -8,7 +8,7 @@ RandomForestFunctions is a way to functionalize the process of the random forest
 First, clone this repository 
 
 ```bash
-git clone https://codeberg.com/ggelek/ProjectName.git
+git clone https://codeberg.com/ggelek/Exploring_With_Random_Forests.git
 ```
 Then make sure to download miniconda. Conda environments help organize a computer's system directories and allow one to run experiments in a self-contained, sandbox environment with packages that may be unstable. Download Miniconda for your operating system  with this [link](https://docs.conda.io/projects/conda/en/latest/user-guide/install/download.html).
 
@@ -17,9 +17,14 @@ When in your terminal, you will know Conda is running when the first word in you
 to create a conda environment execute the following commands:
 
 ```bash
+<<<<<<< HEAD
 conda create --name random_forest
 ```
 
+=======
+$ conda create --name RandomForests
+```
+>>>>>>> 220dffd72faf9789fcf03bdebcf5eab50ca8c973
 
 Conda will then ask if you want to proceed, type y.
 
@@ -42,7 +47,7 @@ I chose to run these programs in Jupyter Notebook which is a ["web-based interac
 It allows me to run code line by line so I can fully comprehend the work that each line does. To install Jupyter Notebook execute the following commands in your conda environment:
 
 ```bash
-$ conda activate myenv 
+$ conda activate RandomForests 
 $ conda install jupyter
 ```
 and follow the prompts to download Jupyter Notebook. 
@@ -76,6 +81,6 @@ Then create an object that contains the functions ie:
 transformer=etl.PandasTransformer()
 model = mltool.Model()
 ```
-and then the rest is up to you and what functions you want to execute.
+
 
 
