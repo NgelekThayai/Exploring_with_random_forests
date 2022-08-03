@@ -8,7 +8,7 @@ RandomForestFunctions is a way to functionalize the process of the random forest
 First, clone this repository 
 
 ```bash
-git clone https://codeberg.com/ggelek/ProjectName.git
+git clone https://codeberg.com/ggelek/Exploring_With_Random_Forests.git
 ```
 Then make sure to download miniconda. Conda environments help organize a computer's system directories and allow one to run experiments in a self-contained, sandbox environment with packages that may be unstable. Download Miniconda for your operating system  with this [link](https://docs.conda.io/projects/conda/en/latest/user-guide/install/download.html).
 
@@ -17,9 +17,8 @@ When in your terminal, you will know Conda is running when the first word in you
 to create a conda environment execute the following commands:
 
 ```bash
-$ conda create --name myenv 
+$ conda create --name RandomForests
 ```
-replace "myenv" with what you want your environment name to be.
 
 Conda will then ask if you want to proceed, type y.
 
@@ -75,6 +74,6 @@ Then create an object that contains the functions ie:
 transformer=etl.PandasTransformer()
 model = mltool.Model()
 ```
-and then the rest is up to you and what functions you want to execute.
+
 
 
