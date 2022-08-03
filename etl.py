@@ -166,7 +166,7 @@ class PandasTransformer:
             raise ValueError("You must call fit() first")
         return self._colnames[self._BtoA[transformed_feature_index]]
 
-    def transform_feature_importances(self, sklearn_imps):
+    def transform_feature_importances(self, sklearn_imps,df):
         if self._colnames is None:
             raise ValueError("You must call fit() first")
         imp = sklearn_imps["importances"]

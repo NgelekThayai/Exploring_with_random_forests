@@ -2,6 +2,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import train_test_split
 from sklearn.inspection import permutation_importance
+from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sb
 import etl
@@ -10,7 +11,7 @@ import numpy as np
 
 class Model:
     
-    def _init_(self):
+    def __init__ (self):
        
        # italizes a blank model
         
@@ -20,9 +21,17 @@ class Model:
         self._model = None
         self._shape = None
         self._columns = []
+        self._transformer = None
 
 
+    def split_train_test(self, df,target = None,  *args, **kwargs):
+        if self._transformer is None:
+            self._transformer =etl.PandasTransformer()
+            self._transformer.fit(df, target = target)
 
+        return self._transformer.make_train_test_split(df, *args, **kwargs)
+        
+        
     def learn(self,df, target = None, kind = 'RF', *args, **kwargs):
         """
         1.Make sure there is a value for target, if there isnt then throw an error 
@@ -40,12 +49,16 @@ class Model:
         ...
         if kind == "RF":
             model = RandomForestClassifier(*args, **kwargs)
-        elif kind == "Linear":
+        else:
             raise ValueError("The target should be RF, for now")
         
      
         # now fit the model
-        transformer = etl.PandasTransformer()
+        if self._transformer is None:   
+            transformer = etl.PandasTransformer()
+        else:
+            transformer = self._transformer
+    
         transformer.fit(df, target = target)
         X,y = transformer.transform(df)
         
@@ -55,35 +68,40 @@ class Model:
         self._target = target
         self._shape = X.shape
         self._columns = df.columns
+        self._transformer = transformer
 
 
 
-    # def predict(self, df):
-    #     """
-    #     first we check if there is a trained model
-    #     if there is a trained model I return a a prediction using the self._model.predict.
-    #     need to figure out a way to transform my numpy back to pandas
-    #     i make it a pandas dataframe and make the column the name of the target
-    #     """
+    def predict(self, df):
+         """
+         first we check if there is a trained model
+         if there is a trained model I return a a prediction using the self._model.predict.
+         need to figure out a way to transform my numpy back to pandas
+         i make it a pandas dataframe and make the column the name of the target
+         """
         
         
-    #     if self._model is None:
-    #         raise ValueError("You must train a model first with learn  first.")
-    #     else:
-    #        p_value =pd.DataFrame({self._target:self._model.predict(df.drop(self._target,axis = 1))})
+         if self._model is None:
+             raise ValueError("You must train a model first with learn  first.")
 
-    #     return p_def
+         X, y = self._transformer.transform(df)
+         
+         yh = self._model.predict(X)
+
+         yht = self._transformer.transform_predictions(yh)
+         
+         return yht
 
 
-    value accuracy(self, train_X, train_y, test_X, test_y):
-        """
-        so I score both the training and testing sets of data and then print out what the values would be
-        """
-        train_score = self._model.score(train_X,train_y)
-        test_score = self._model.score(test_X,test_y)
-        return "Train Score: ", train_score, "Test Score: ", test_score
+    def accuracy(self, df):
+         """
+         so I score both the training and testing sets of data and then print out what the values would be
+         """
+         
+         X, y = self._transformer.transform(df)
+         
+         return self._model.score(X,y) 
     
-       
     def feature_importances(self,df, num_trials):
         """
         First create out transformer from etl.py
@@ -97,31 +115,20 @@ class Model:
 
 return feature importance
         """
-        transformer = etl.PandasTransformer()
-        transformer.fit(df, target = target)
-        train_df, test_df = transformer.make_train_test_split(df)
-        test_X, test_y = transformer.transform(test_df)
-
+        X, y = self._transformer.transform(df)
         
-        
-        r_multi = permutation_importance(self._model, test_X,test_y,
+        r_multi = permutation_importance(self._model, X,y,
                                          n_repeats = num_trials,
                                          random_state = 0)
-        
-        importance_score= transformer.transform_feature_importances(df,r_multi)
+         
+        importance_score= self._transformer.transform_feature_importances(r_multi,df)
         return importance_score
 
-def confusion_matrix(test_X, test_y):
-    
-    
-    y_pred = self._predict(test_X)
-    cm = confusion_matrix(test_y, y_pred)
+    def confusion(self,test_X, test_y):
+        
+        y_pred = self._model.predict(test_X)
+        cm = confusion_matrix(test_y, y_pred)
 
-    cm_df = pd.DataFrame(cm)
+        cm_df = pd.DataFrame(cm)
 
-    plt.figure(figsize=(5,4))
-    sb.heatmap(cm_df, annot=True)
-    plt.title('Confusion Matrix')
-    plt.ylabel('Actal Values')
-    plt.xlabel('Predicted Values')
-    plt.show()
+        return cm_df
