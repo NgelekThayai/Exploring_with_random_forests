@@ -25,16 +25,16 @@ class Model:
 
 
     def split_train_test(self, df,target = None,  *args, **kwargs):
-        if self._transformer is None:
-            self._transformer =etl.PandasTransformer()
-            self._transformer.fit(df, target = target)
+       # if self._transformer is None:
+        self._transformer = etl.PandasTransformer()
+        self._transformer.fit(df, target = target)
 
         return self._transformer.make_train_test_split(df, *args, **kwargs)
         
         
     def learn(self,df, target = None, kind = 'RF', *args, **kwargs):
         """
-        1.Make sure there is a value for target, if there isnt then throw an error 
+         1.Make sure there is a value for target, if there isnt then throw an error 
         2. Then check if the classifier is a Random Forest and if it isnt then check if the 
         classifier is a Linear classifier.
         3.Use PandasTransformers from etl.py
@@ -73,37 +73,35 @@ class Model:
 
 
     def predict(self, df):
-         """
-         first we check if there is a trained model
-         if there is a trained model I return a a prediction using the self._model.predict.
-         need to figure out a way to transform my numpy back to pandas
-         i make it a pandas dataframe and make the column the name of the target
-         """
-        
-        
-         if self._model is None:
+        """
+        first we check if there is a trained model
+        if there is a trained model I return a a prediction using the self._model.predict.
+        need to figure out a way to transform my numpy back to pandas
+        i make it a pandas dataframe and make the column the name of the target
+        """
+        if self._model is None:
              raise ValueError("You must train a model first with learn first.")
 
-         X, y = self._transformer.transform(df)
+        X, y = self._transformer.transform(df)
          
-         yh = self._model.predict(X)
+        yh = self._model.predict(X)
 
-         yht = self._transformer.transform_predictions(yh)
+        yht = self._transformer.transform_predictions(yh)
          
-         return yht
+        return yht
 
 
     def accuracy(self, df):
          """
          so I score both the training and testing sets of data and then print out what the values would be
          """
-         
          X, y = self._transformer.transform(df)
          
          return self._model.score(X,y) 
     
     def feature_importances(self,df, num_trials):
         """
+        A poor man's permutation importance. (From Damian Eads)
         First create out transformer from etl.py
         fit our pandas dataframe and make it a numpy array
         split the numpy array into training and testing arrays
@@ -115,20 +113,48 @@ class Model:
 
 return feature importance
         """
-        X, y = self._transformer.transform(df)
+        X, y =self._transformer.transform(df)
+        nrows, ncols = X.shape
+        # The original score of the unaltered data.
+        original_score = self._model.score(X, y)
+        # Store the result here.
+        fimps = np.zeros((ncols,))
+        Xc = X.copy()
+        usr = np.arange(nrows)
+        # Over each feature column
+        for i in range(ncols):
+            sr = np.arange(nrows)
+            # Over each trial.
+            for j in range(num_trials):
+                np.random.shuffle(sr)
+                # Shuffle the rows for feature i
+                Xc[:, i] = X[sr, i]
+
+                # Compute the shuffled_score
+                shuffled_score = self._model.score(Xc, y)
+                Xc[:, i] = X[usr, i]
+
+                # Accumulate for the mean: difference in score (more positive means more important)
+                fimps[i] += original_score - shuffled_score
+                # Compute the mean
+            fimps[i] /= num_trials
+
+
+        #Return the feature importances
+        d = {}
+        d["importances"] = fimps
         
-        r_multi = permutation_importance(self._model, X,y,
-                                         n_repeats = num_trials,
-                                         random_state = 0)
-         
-        importance_score= self._transformer.transform_feature_importances(r_multi,df)
-        return importance_score
-
+        return self._transformer.transform_feature_importances(d, df)
+    
     def confusion(self,df):
-        test
-        y_pred = self._model.predict(test_X)
-        cm = confusion_matrix(test_y, y_pred)
+        if self._model is None:
+            raise ValueError("You must train a model first with learn first.")
+        
+        X, y = self._transformer.transform(df)
 
-        cm_df = pd.DataFrame(cm)
+        y_pred = self._model.predict(X)
 
-        return cm_df
+        cm = confusion_matrix(y, y_pred)
+
+        return cm
+        

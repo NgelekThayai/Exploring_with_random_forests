@@ -176,7 +176,7 @@ class PandasTransformer:
             colname = self._colnames[i]
             if colname not in df.columns:
                 raise ValueError("missing column %s not in data frame" % colname)
-            result[colname] = imp[self._AtoB[i], :].sum(axis=0).mean()
+            result[colname] = imp[self._AtoB[i]].mean()
         return pd.Series(result)
 
     def transform_predictions(self, y):
