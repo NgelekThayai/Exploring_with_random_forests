@@ -40,7 +40,7 @@ I chose to run these programs in Jupyter Notebook which is a ["web-based interac
 It allows me to run code line by line so I can fully comprehend the work that each line does. To install Jupyter Notebook execute the following commands in your conda environment:
 
 ```bash
-$ conda activate myenv 
+$ conda activate RandomForests 
 $ conda install jupyter
 ```
 and follow the prompts to download Jupyter Notebook. 
