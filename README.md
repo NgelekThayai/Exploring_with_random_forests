@@ -20,15 +20,15 @@ to create a conda environment execute the following commands:
 conda create --name random_forest
 ```
 Conda will then ask if you want to proceed, type y.
-Once in your environment install the program dependencies:
+Once in your environment install the program dependencies using the bash script provided in the repo called "install.sh"
+I chose to run these programs in Jupyter Notebook which is a ["web-based interactive computing platform"](https://jupyter.org/)
+It allows me to run code line by line so I can fully comprehend the work that each line does. 
+This bash script also downloads [pandas](https://pandas.pydata.org/), [numpy](https://numpy.org/), [seaborn](https://seaborn.pydata.org/), [matplotlib](https://matplotlib.org/), and [scikit-learn](https://scikit-learn.org/stable/).
 
 ```bash 
 conda activate random_forest
-conda install pandas 
-conda install numpy
-conda install seaborn
-conda install matplotlib
-conda install scikit-learn
+chmod +x install.sh
+./install.sh
 ```
 
 if you want too see all the packages installed in the active conda environment type:
@@ -36,44 +36,22 @@ if you want too see all the packages installed in the active conda environment t
 conda list
 ```
 
-I chose to run these programs in Jupyter Notebook which is a ["web-based interactive computing platform"](https://jupyter.org/)
-It allows me to run code line by line so I can fully comprehend the work that each line does. To install Jupyter Notebook execute the following commands in your conda environment:
-
-```bash
-conda activate RandomForests 
-conda install jupyter
-```
-and follow the prompts to download Jupyter Notebook. 
-
-once Jupyter Notebook is installed, make sure you are in your conda environment, and then execute the following command:
-``` bash
-jupyter notebook
-```
-and your Jupyter Notebook interface will appear in your default browser. 
-
-Now in your Jupyter Notebook you can create a new file with the "New" button in the righthand corner and choose to open your notebook with Python 3. 
-
-Now in your Jupyter Notebook file import mltool.py and etl.py and the program dependencies with the following:
-```bash
-#make sure you are in the directory you cloned earlier using 
-cd Exploring_With_Random_Forests
-import mltool #make sure to shift + enter after typing to execute each line
-import etl.py #make sure to shift + enter after typing to execute each line
-import numpy as py #make sure to shift + enter after typing to execute each line
-import pandas as pd #make sure to shift + enter after typing to execute each line
-import matplotlib.pyplot as plt #make sure to shift + enter after typing to execute each line
-import seaborn as sb # make sure to shift + enter after typing to execute each line
-import sklearn  #make sure to shift+enter after typing to execute each line
-```
-
 ## Usage
 ------------
-Import your dataset and read it.
-Then create an object that contains the functions ie:
+In your Conda environment called "random_forest" run the "run.sh" bash script to run the Jupyter Notebook included in the repository.
 ```bash
-transformer=etl.PandasTransformer()
-model = mltool.Model()
+conda activate random_forest
+chmod +x run.sh
+./run.sh
 ```
+Once this is done you will be in the Jupyter Notebook home directory.
+Navigate to the Breast_Cancer.ipynb file and click on that file. 
+Once there you should see a filled up Jupyter Notebook. 
+To run the whole Jupyter Notebook at once first click on "cells" and then click on "run all".
+To execute each cell one at a time shift + enter on the selected cell.
+
+
+
 
 
 
