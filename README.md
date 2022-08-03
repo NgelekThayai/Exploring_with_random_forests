@@ -1,6 +1,6 @@
-# RandomForestFunctions
+# Exploring_With_Random_Forests
 
-RandomForestFunctions is a way to functionalize the process of the random forest classifier and explore datasets quickly and effectively. 
+Exploring_With_Random_Forests is a way to functionalize the process of the random forest classifier and explore datasets quickly and effectively. 
 
 ## Installation:
 ------------
