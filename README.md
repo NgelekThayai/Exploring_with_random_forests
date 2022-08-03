@@ -17,12 +17,10 @@ When in your terminal, you will know Conda is running when the first word in you
 to create a conda environment execute the following commands:
 
 ```bash
-<<<<<<< HEAD
+<
 conda create --name random_forest
 ```
-
-=======
-$ conda create --name RandomForests
+conda create --name RandomForests
 ```
 >>>>>>> 220dffd72faf9789fcf03bdebcf5eab50ca8c973
 
@@ -40,21 +38,21 @@ conda install scikit-learn
 
 if you want too see all the packages installed in the active conda environment type:
 ```bash
-$ conda list
+conda list
 ```
 
 I chose to run these programs in Jupyter Notebook which is a ["web-based interactive computing platform"](https://jupyter.org/)
 It allows me to run code line by line so I can fully comprehend the work that each line does. To install Jupyter Notebook execute the following commands in your conda environment:
 
 ```bash
-$ conda activate RandomForests 
-$ conda install jupyter
+conda activate RandomForests 
+conda install jupyter
 ```
 and follow the prompts to download Jupyter Notebook. 
 
 once Jupyter Notebook is installed, make sure you are in your conda environment, and then execute the following command:
 ``` bash
-$ jupyter notebook
+jupyter notebook
 ```
 and your Jupyter Notebook interface will appear in your default browser. 
 
@@ -63,7 +61,7 @@ Now in your Jupyter Notebook you can create a new file with the "New" button in 
 Now in your Jupyter Notebook file import mltool.py and etl.py and the program dependencies with the following:
 ```bash
 #make sure you are in the directory you cloned earlier using 
-cd ProjectName
+cd Exploring_With_Random_Forests
 import mltool #make sure to shift + enter after typing to execute each line
 import etl.py #make sure to shift + enter after typing to execute each line
 import numpy as py #make sure to shift + enter after typing to execute each line
