@@ -82,7 +82,7 @@ class Model:
         
         
          if self._model is None:
-             raise ValueError("You must train a model first with learn  first.")
+             raise ValueError("You must train a model first with learn first.")
 
          X, y = self._transformer.transform(df)
          
@@ -124,8 +124,8 @@ return feature importance
         importance_score= self._transformer.transform_feature_importances(r_multi,df)
         return importance_score
 
-    def confusion(self,test_X, test_y):
-        
+    def confusion(self,df):
+        test
         y_pred = self._model.predict(test_X)
         cm = confusion_matrix(test_y, y_pred)
 
