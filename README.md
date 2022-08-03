@@ -17,14 +17,15 @@ When in your terminal, you will know Conda is running when the first word in you
 to create a conda environment execute the following commands:
 
 ```bash
-$ conda create --name myenv 
+conda create --name random_forest
 ```
-replace "myenv" with what you want your environment name to be.
+
 
 Conda will then ask if you want to proceed, type y.
 
 Once in your environment install the program dependencies:
 ```bash 
+conda activate random_forest
 conda install pandas 
 conda install numpy
 conda install seaborn
