@@ -17,16 +17,11 @@ When in your terminal, you will know Conda is running when the first word in you
 to create a conda environment execute the following commands:
 
 ```bash
-<
 conda create --name random_forest
 ```
-conda create --name RandomForests
-```
->>>>>>> 220dffd72faf9789fcf03bdebcf5eab50ca8c973
-
 Conda will then ask if you want to proceed, type y.
-
 Once in your environment install the program dependencies:
+
 ```bash 
 conda activate random_forest
 conda install pandas 
