@@ -8,7 +8,7 @@ Exploring_With_Random_Forests is a way to functionalize the process of the rando
 First, clone this repository 
 
 ```bash
-git clone https://github.com/ggelek03/Exploring_with_random_forests.git
+git clone https://github.com/NgelekThayai/Exploring_with_random_forests.git
 ```
 Then make sure to download miniconda. Conda environments help organize a computer's system directories and allow one to run experiments in a self-contained, sandbox environment with packages that may be unstable. Download Miniconda for your operating system  with this [link](https://docs.conda.io/projects/conda/en/latest/user-guide/install/download.html).
 
